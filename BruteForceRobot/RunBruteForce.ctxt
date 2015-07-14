@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment0.text=\n\ @param\ args\n\ @throws\ InterruptedException\n
+comment1.params=command
+comment1.target=java.lang.String\ executeCommand(java.lang.String)
+comment2.params=robot\ s
+comment2.target=void\ type(java.awt.Robot,\ java.lang.String)
+comment3.params=
+comment3.target=void\ typePassword()
+numComments=4
