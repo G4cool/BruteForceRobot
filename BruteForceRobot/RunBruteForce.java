@@ -32,7 +32,7 @@ public class RunBruteForce {
 			robot.mousePress(InputEvent.BUTTON1_MASK);
             robot.mouseRelease(InputEvent.BUTTON1_MASK);
 			robot.delay(1000);
-
+			
 			type(robot, "ssh michaeltruell@172.17.113.252");
 			int index = 0;
 
