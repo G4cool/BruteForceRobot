@@ -14,18 +14,12 @@ public class RunBruteForce {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		// TODO Auto-generated method stub
-
-		RunBruteForce obj = new RunBruteForce();
-
 		String command = "open -a Terminal";
-
-		String output = obj.executeCommand(command);
-
+		String output = executeCommand(command);
 		System.out.println(output);
 		
 		command = "whoami";
-		output = obj.executeCommand(command);
+		output = executeCommand(command);
 		System.out.println(output);
 
 		try {
@@ -39,47 +33,8 @@ public class RunBruteForce {
             robot.mouseRelease(InputEvent.BUTTON1_MASK);
 			robot.delay(1000);
 
-			/*
-			robot.keyPress(KeyEvent.VK_S);
-			robot.keyRelease(KeyEvent.VK_S);
-			robot.keyPress(KeyEvent.VK_S);
-			robot.keyRelease(KeyEvent.VK_S);
-			robot.keyPress(KeyEvent.VK_H);
-			robot.keyRelease(KeyEvent.VK_H);
-			robot.keyPress(KeyEvent.VK_SPACE);
-			robot.keyRelease(KeyEvent.VK_SPACE);
-			robot.keyPress(KeyEvent.VK_SHIFT);
-			robot.keyPress(KeyEvent.VK_M);
-			robot.keyRelease(KeyEvent.VK_M);
-			robot.keyRelease(KeyEvent.VK_SHIFT);
-			robot.keyPress(KeyEvent.VK_I);
-			robot.keyRelease(KeyEvent.VK_I);
-			robot.keyPress(KeyEvent.VK_C);
-			robot.keyRelease(KeyEvent.VK_C);
-			robot.keyPress(KeyEvent.VK_H);
-			robot.keyRelease(KeyEvent.VK_H);
-			robot.keyPress(KeyEvent.VK_A);
-			robot.keyRelease(KeyEvent.VK_A);
-			robot.keyPress(KeyEvent.VK_E);
-			robot.keyRelease(KeyEvent.VK_E);
-			robot.keyPress(KeyEvent.VK_L);
-			robot.keyRelease(KeyEvent.VK_L);
-			*/
-			
-			type(robot, "ssh Michael\\ Truell@172.17.121.183");
-			
-			/*
-			String s = "ssh Michael\\ Truell@172.17.121.183";
-			byte[] bytes = s.getBytes();
-			for (byte b : bytes) {
-				int code = b;
-			    // keycode only handles [A-Z] (which is ASCII decimal [65-90])
-			    if (code > 96 && code < 123) code = code - 32;
-			    //robot.delay(1);
-			    robot.keyPress(code);
-			    robot.keyRelease(code);
-			}
-			*/
+			type(robot, "ssh michaeltruell@172.17.113.252");
+			int index = 0;
 
 		} catch (AWTException e) {
 			e.printStackTrace();
@@ -87,7 +42,7 @@ public class RunBruteForce {
 
 	}
 
-	String executeCommand(String command) {
+	public static String executeCommand(String command) {
 
 		StringBuffer output = new StringBuffer();
 
@@ -110,7 +65,7 @@ public class RunBruteForce {
 		return output.toString();
 
 	}
-	static void type(Robot robot, String s) {
+	public static void type(Robot robot, String s) {
 		System.out.println("hello?");
 		byte[] bytes = s.getBytes();
 	    for (byte b : bytes)
