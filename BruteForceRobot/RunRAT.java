@@ -1,3 +1,12 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.awt.event.InputEvent;
+import java.awt.AWTException;
+import java.net.*;
 
 /**
  * Write a description of class RunRAT here.
@@ -13,9 +22,5 @@ public class RunRAT
     
     public static void print(String string) {
         System.out.println(string);
-    }
-    
-    public static void openSockets(String ip) {
-        
     }
 }
