@@ -14,6 +14,7 @@ public class RunBruteForce {
      * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
+        System.out.println("\u000c");
         String command = "open -a Terminal";
         String output = executeCommand(command);
         System.out.println(output);
@@ -33,7 +34,9 @@ public class RunBruteForce {
             robot.mouseRelease(InputEvent.BUTTON1_MASK);
             robot.delay(1000);
 
-            type(robot, "ssh michaeltruell@172.17.113.252");
+            //type(robot, "ssh michaeltruell@172.17.113.252");
+            System.out.println("hello");
+            System.out.println("this " + executeCommand("ls"));
             int index = 0;
 
         } catch (AWTException e) {
@@ -42,13 +45,13 @@ public class RunBruteForce {
 
     }
 
-    public static String executeCommand(String command) {
+    public static String executeCommand(String commands) {
 
         StringBuffer output = new StringBuffer();
 
         Process p;
         try {
-            p = Runtime.getRuntime().exec(command);
+            p = Runtime.getRuntime().exec(commands);
             p.waitFor();
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                         p.getInputStream()));
@@ -66,7 +69,7 @@ public class RunBruteForce {
 
     }
 
-    public static String getResponse() {
+    /*public static String getResponse() {
         try {
             Process p;
             StringBuffer output = new StringBuffer();
@@ -82,7 +85,7 @@ public class RunBruteForce {
             e.printStackTrace();
             return " ";
         }
-    }
+    }*/
 
     public static void type(Robot robot, String s) {
         System.out.println("hello?");

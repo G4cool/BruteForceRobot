@@ -2,10 +2,11 @@
 comment0.params=args
 comment0.target=void\ main(java.lang.String[])
 comment0.text=\n\ @param\ args\n\ @throws\ InterruptedException\n
-comment1.params=command
+comment1.params=commands
 comment1.target=java.lang.String\ executeCommand(java.lang.String)
 comment2.params=robot\ s
 comment2.target=void\ type(java.awt.Robot,\ java.lang.String)
+comment2.text=public\ static\ String\ getResponse()\ {\n\ \ \ \ \ \ \ \ try\ {\n\ \ \ \ \ \ \ \ \ \ \ \ Process\ p;\n\ \ \ \ \ \ \ \ \ \ \ \ StringBuffer\ output\ \=\ new\ StringBuffer();\n\ \ \ \ \ \ \ \ \ \ \ \ p.waitFor();\n\ \ \ \ \ \ \ \ \ \ \ \ BufferedReader\ reader\ \=\ new\ BufferedReader(new\ InputStreamReader(\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ p.getInputStream()));\n\ \ \ \ \ \ \ \ \ \ \ \ String\ line\ \=\ "";\n\ \ \ \ \ \ \ \ \ \ \ \ while\ ((line\ \=\ reader.readLine())\ \!\=\ null)\ {\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ output.append(line\ +\ "\\n");\n\ \ \ \ \ \ \ \ \ \ \ \ }\n\ \ \ \ \ \ \ \ \ \ \ \ return\ line;\n\ \ \ \ \ \ \ \ }\ catch(Exception\ e)\ {\n\ \ \ \ \ \ \ \ \ \ \ \ e.printStackTrace();\n\ \ \ \ \ \ \ \ \ \ \ \ return\ "\ ";\n\ \ \ \ \ \ \ \ }\n}
 comment3.params=
 comment3.target=void\ typePassword()
 numComments=4
