@@ -33,11 +33,15 @@ public class RunBruteForce {
             robot.mousePress(InputEvent.BUTTON1_MASK);
             robot.mouseRelease(InputEvent.BUTTON1_MASK);
             robot.delay(1000);
-
-            //type(robot, "ssh michaeltruell@172.17.113.252");
-            System.out.println("hello");
-            System.out.println("this " + executeCommand("ls"));
             int index = 0;
+            type(robot, "ssh michaeltruell@172.17.113.252");
+            for(char a = 'a'; a < 'z'; a++) {
+                if(index % 3 == 0) {
+                    type(robot, "ssh michaeltruell@172.17.113.252");
+                }
+                type(robot, ""+a);
+                index++;
+            }
 
         } catch (AWTException e) {
             e.printStackTrace();
@@ -45,10 +49,31 @@ public class RunBruteForce {
 
     }
 
-    public static String executeCommand(String commands) {
+    public static String executeCommand(String command) {
 
         StringBuffer output = new StringBuffer();
 
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        p.getInputStream()));
+
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return output.toString();
+
+    }
+    public static String executeCommand(String commands[]) {
+        StringBuffer output = new StringBuffer();
         Process p;
         try {
             p = Runtime.getRuntime().exec(commands);
@@ -66,7 +91,6 @@ public class RunBruteForce {
         }
 
         return output.toString();
-
     }
 
     /*public static String getResponse() {
