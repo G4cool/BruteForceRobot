@@ -5,6 +5,13 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import javax.swing.Timer;
 public class RobotExperiments implements NativeKeyListener
 {
     private static final int KILL_CHANCE = 50;
@@ -289,5 +296,28 @@ public class RobotExperiments implements NativeKeyListener
     {
         //System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
 
+    }
+    
+    public void screenControl(Robot robot, String fileName) {
+        while(true) {
+            int delay = 1000; //milliseconds
+            ActionListener taskPerformer = new ActionListener() {
+                public void actionPerformed(ActionEvent evt) {
+                    //...Perform a task...
+                }
+            };
+            new Timer(delay, taskPerformer).start();
+            try {
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                Rectangle screenRectangle = new Rectangle(screenSize);
+                BufferedImage image = robot.createScreenCapture(screenRectangle);
+                ImageIO.write(image, "png", new File(fileName));
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("There was a problem.");
+    
+                System.exit(1);
+            }
+        }
     }
 }
