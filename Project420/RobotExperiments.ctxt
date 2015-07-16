@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment1.params=e
+comment1.target=void\ nativeKeyPressed(org.jnativehook.keyboard.NativeKeyEvent)
+comment2.params=e
+comment2.target=void\ nativeKeyReleased(org.jnativehook.keyboard.NativeKeyEvent)
+comment3.params=e
+comment3.target=void\ nativeKeyTyped(org.jnativehook.keyboard.NativeKeyEvent)
+numComments=4
