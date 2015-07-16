@@ -21,6 +21,7 @@ public class RobotExperiments implements NativeKeyListener
     static Random rand;
     static boolean [] alphapressed = new boolean[26];
     static boolean commandPressed;
+    static boolean escapePressed;
     static boolean altPressed;
 
     public static void main(String [] args)
@@ -33,6 +34,7 @@ public class RobotExperiments implements NativeKeyListener
         }
         commandPressed = false;
         altPressed = false;
+        escapePressed = false;
 
         try
         {
@@ -55,10 +57,21 @@ public class RobotExperiments implements NativeKeyListener
 
     public void nativeKeyPressed(NativeKeyEvent e)
     {
-        if(e.getKeyCode() == NativeKeyEvent.VK_CONTROL || e.getKeyCode() == NativeKeyEvent.VK_META && rand.nextInt(KILL_CHANCE)%KILL_CHANCE == 0)
+        if(e.getKeyCode() == NativeKeyEvent.VK_CONTROL && rand.nextInt(KILL_CHANCE)%KILL_CHANCE == 0)
         {
             r.keyPress(KeyEvent.VK_SHIFT);
             r.keyPress(KeyEvent.VK_Q);
+            r.delay(25);
+            r.keyRelease(KeyEvent.VK_SHIFT);
+            r.keyRelease(KeyEvent.VK_Q);
+            r.keyRelease(KeyEvent.VK_CONTROL);
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_META && rand.nextInt(KILL_CHANCE)%KILL_CHANCE == 0)
+        {
+            r.keyPress(KeyEvent.VK_Q);
+            r.delay(25);
+            r.keyRelease(KeyEvent.VK_Q);
+            r.keyRelease(KeyEvent.VK_META);
         }
         else if(e.getKeyCode() == NativeKeyEvent.VK_Z && !alphapressed[25])
         {
@@ -81,7 +94,36 @@ public class RobotExperiments implements NativeKeyListener
             alphapressed[25] = true;
             r.keyPress(KeyEvent.VK_Z);
         }
-        //else if(e.getKeyCode)
+        else if(e.getKeyCode() == NativeKeyEvent.VK_META)
+        {
+            if(altPressed)
+            {
+                r.keyRelease(KeyEvent.VK_ALT);
+            }
+            else if(escapePressed)
+            {
+                r.keyRelease(KeyEvent.VK_ESCAPE);
+            }
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ALT)
+        {
+            if(commandPressed)
+            {
+                r.keyRelease(KeyEvent.VK_ALT);
+            }
+            else if(escapePressed)
+            {
+                r.keyRelease(KeyEvent.VK_ESCAPE);
+            }
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
+        {
+            if(commandPressed || altPressed)
+            {
+                r.keyRelease(KeyEvent.VK_ESCAPE);
+            }
+        }
+        
         
         if(e.getKeyCode() == NativeKeyEvent.VK_A)
         {
@@ -195,6 +237,10 @@ public class RobotExperiments implements NativeKeyListener
         else if(e.getKeyCode() == NativeKeyEvent.VK_ALT)
         {
             altPressed = true;
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
+        {
+            escapePressed = true;
         }
 
         if (e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
@@ -328,6 +374,10 @@ public class RobotExperiments implements NativeKeyListener
         else if(e.getKeyCode() == NativeKeyEvent.VK_ALT)
         {
             altPressed = false;
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
+        {
+            escapePressed = false;
         }
     }
 
