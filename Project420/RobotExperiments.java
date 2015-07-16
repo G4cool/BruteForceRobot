@@ -4,6 +4,8 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -18,6 +20,8 @@ public class RobotExperiments implements NativeKeyListener
     static Robot r;
     static Random rand;
     static boolean [] alphapressed = new boolean[26];
+    static boolean commandPressed;
+    static boolean altPressed;
 
     public static void main(String [] args)
     {
@@ -27,6 +31,8 @@ public class RobotExperiments implements NativeKeyListener
         {
             alphapressed[a] = true;
         }
+        commandPressed = false;
+        altPressed = false;
 
         try
         {
@@ -43,33 +49,39 @@ public class RobotExperiments implements NativeKeyListener
 
         //Construct the example object and initialze native hook.
         GlobalScreen.getInstance().addNativeKeyListener(new RobotExperiments());
+        
+        
     }
 
     public void nativeKeyPressed(NativeKeyEvent e)
     {
-        if(e.getKeyCode() == NativeKeyEvent.VK_CONTROL && rand.nextInt(KILL_CHANCE)%KILL_CHANCE == 0)
+        if(e.getKeyCode() == NativeKeyEvent.VK_CONTROL || e.getKeyCode() == NativeKeyEvent.VK_META && rand.nextInt(KILL_CHANCE)%KILL_CHANCE == 0)
         {
             r.keyPress(KeyEvent.VK_SHIFT);
             r.keyPress(KeyEvent.VK_Q);
         }
-        else if(e.getKeyCode() == NativeKeyEvent.VK_Z && alphapressed[25] == false)
+        else if(e.getKeyCode() == NativeKeyEvent.VK_Z && !alphapressed[25])
         {
-            r.delay(25);
+            alphapressed[25] = false;
+            r.keyRelease(KeyEvent.VK_Z);
+            r.delay(10);
             r.keyPress(KeyEvent.VK_BACK_SPACE);
             r.keyRelease(KeyEvent.VK_BACK_SPACE);
             alphapressed[23] = true;
             r.keyPress(KeyEvent.VK_X);
-            r.keyRelease(KeyEvent.VK_X);
         }
-        else if(e.getKeyCode() == NativeKeyEvent.VK_X && alphapressed[23] == false)
+        else if(e.getKeyCode() == NativeKeyEvent.VK_X && !alphapressed[23])
         {
-            r.delay(25);
+            alphapressed[23] = false;
+            r.keyRelease(KeyEvent.VK_X);
+            alphapressed[23] = false;
+            r.delay(10);
             r.keyPress(KeyEvent.VK_BACK_SPACE);
             r.keyRelease(KeyEvent.VK_BACK_SPACE);
             alphapressed[25] = true;
             r.keyPress(KeyEvent.VK_Z);
-            r.keyRelease(KeyEvent.VK_Z);
         }
+        //else if(e.getKeyCode)
         
         if(e.getKeyCode() == NativeKeyEvent.VK_A)
         {
@@ -175,6 +187,15 @@ public class RobotExperiments implements NativeKeyListener
         {
             alphapressed[25] = true;
         }
+        //Special Keys
+        else if(e.getKeyCode() == NativeKeyEvent.VK_META)
+        {
+            commandPressed = true;
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ALT)
+        {
+            altPressed = true;
+        }
 
         if (e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
         {
@@ -185,6 +206,15 @@ public class RobotExperiments implements NativeKeyListener
     public void nativeKeyReleased(NativeKeyEvent e)
     {
         //System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        
+        if(e.getKeyCode() == NativeKeyEvent.VK_Z && alphapressed[25])
+        {
+            r.keyRelease(KeyEvent.VK_X);
+        }
+        if(e.getKeyCode() == NativeKeyEvent.VK_X && alphapressed[23])
+        {
+            r.keyRelease(KeyEvent.VK_Z);
+        }
 
         if(e.getKeyCode() == NativeKeyEvent.VK_A)
         {
@@ -289,6 +319,15 @@ public class RobotExperiments implements NativeKeyListener
         else if(e.getKeyCode() == NativeKeyEvent.VK_Z)
         {
             alphapressed[25] = false;
+        }
+        //Special Keys
+        else if(e.getKeyCode() == NativeKeyEvent.VK_META)
+        {
+            commandPressed = false;
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ALT)
+        {
+            altPressed = false;
         }
     }
 
