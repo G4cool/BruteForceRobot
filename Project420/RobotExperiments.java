@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import javax.swing.Timer;
+import java.util.concurrent.*;
 public class RobotExperiments implements NativeKeyListener
 {
     private static final int KILL_CHANCE = 50;
@@ -387,25 +388,24 @@ public class RobotExperiments implements NativeKeyListener
 
     }
     
+    long lastAdded = System.currentTimeMillis();
+    
     public void screenControl(Robot robot, String fileName) {
         while(true) {
-            int delay = 1000; //milliseconds
-            ActionListener taskPerformer = new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                    //...Perform a task...
+            long curTime = System.currentTimeMillis();
+            if(curTime >= lastAdded + 1000) {    
+                try {
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    Rectangle screenRectangle = new Rectangle(screenSize);
+                    BufferedImage image = robot.createScreenCapture(screenRectangle);
+                    ImageIO.write(image, "png", new File(fileName));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.err.println("There was a problem.");
+        
+                    System.exit(1);
                 }
-            };
-            new Timer(delay, taskPerformer).start();
-            try {
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                Rectangle screenRectangle = new Rectangle(screenSize);
-                BufferedImage image = robot.createScreenCapture(screenRectangle);
-                ImageIO.write(image, "png", new File(fileName));
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("There was a problem.");
-    
-                System.exit(1);
+                lastAdded = curTime;
             }
         }
     }

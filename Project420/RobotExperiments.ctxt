@@ -9,6 +9,4 @@ comment3.params=e
 comment3.target=void\ nativeKeyTyped(org.jnativehook.keyboard.NativeKeyEvent)
 comment4.params=robot\ fileName
 comment4.target=void\ screenControl(java.awt.Robot,\ java.lang.String)
-comment5.params=evt
-comment5.target=void\ actionPerformed(java.awt.event.ActionEvent)
-numComments=6
+numComments=5
