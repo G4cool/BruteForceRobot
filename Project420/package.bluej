@@ -1,7 +1,13 @@
 #BlueJ package file
+<<<<<<< HEAD
 objectbench.height=76
 objectbench.width=563
 package.editor.height=316
+=======
+objectbench.height=77
+objectbench.width=573
+package.editor.height=315
+>>>>>>> origin/master
 package.editor.width=465
 package.editor.x=42
 package.editor.y=45
@@ -11,9 +17,15 @@ package.showExtends=true
 package.showUses=true
 project.charset=UTF-8
 target1.editor.height=699
+<<<<<<< HEAD
 target1.editor.width=900
 target1.editor.x=264
 target1.editor.y=56
+=======
+target1.editor.width=901
+target1.editor.x=210
+target1.editor.y=23
+>>>>>>> origin/master
 target1.height=60
 target1.name=RobotExperiments
 target1.naviview.expanded=false

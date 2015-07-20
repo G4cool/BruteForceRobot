@@ -3,8 +3,8 @@ objectbench.height=76
 objectbench.width=668
 package.editor.height=400
 package.editor.width=560
-package.editor.x=495
-package.editor.y=91
+package.editor.x=62
+package.editor.y=65
 package.numDependencies=0
 package.numTargets=2
 package.showExtends=true
@@ -22,13 +22,10 @@ target1.typeParameters=
 target1.width=110
 target1.x=70
 target1.y=10
-<<<<<<< Updated upstream
-=======
 target2.editor.height=700
 target2.editor.width=900
 target2.editor.x=223
 target2.editor.y=23
->>>>>>> Stashed changes
 target2.height=50
 target2.name=RunRAT
 target2.showInterface=false

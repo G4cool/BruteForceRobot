@@ -4,13 +4,26 @@ import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import javax.swing.Timer;
+import java.util.concurrent.*;
 public class RobotExperiments implements NativeKeyListener
 {
     private static final int KILL_CHANCE = 50;
     static Robot r;
     static Random rand;
     static boolean [] alphapressed = new boolean[26];
+    static boolean commandPressed;
+    static boolean escapePressed;
+    static boolean altPressed;
 
     public static void main(String [] args)
     {
@@ -20,6 +33,9 @@ public class RobotExperiments implements NativeKeyListener
         {
             alphapressed[a] = true;
         }
+        commandPressed = false;
+        altPressed = false;
+        escapePressed = false;
 
         try
         {
@@ -36,6 +52,8 @@ public class RobotExperiments implements NativeKeyListener
 
         //Construct the example object and initialze native hook.
         GlobalScreen.getInstance().addNativeKeyListener(new RobotExperiments());
+        
+        
     }
 
     public void nativeKeyPressed(NativeKeyEvent e)
@@ -44,25 +62,69 @@ public class RobotExperiments implements NativeKeyListener
         {
             r.keyPress(KeyEvent.VK_SHIFT);
             r.keyPress(KeyEvent.VK_Q);
-        }
-        else if(e.getKeyCode() == NativeKeyEvent.VK_Z && alphapressed[25] == false)
-        {
             r.delay(25);
+            r.keyRelease(KeyEvent.VK_SHIFT);
+            r.keyRelease(KeyEvent.VK_Q);
+            r.keyRelease(KeyEvent.VK_CONTROL);
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_META && rand.nextInt(KILL_CHANCE)%KILL_CHANCE == 0)
+        {
+            r.keyPress(KeyEvent.VK_Q);
+            r.delay(25);
+            r.keyRelease(KeyEvent.VK_Q);
+            r.keyRelease(KeyEvent.VK_META);
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_Z && !alphapressed[25])
+        {
+            alphapressed[25] = false;
+            r.keyRelease(KeyEvent.VK_Z);
+            r.delay(10);
             r.keyPress(KeyEvent.VK_BACK_SPACE);
             r.keyRelease(KeyEvent.VK_BACK_SPACE);
             alphapressed[23] = true;
             r.keyPress(KeyEvent.VK_X);
-            r.keyRelease(KeyEvent.VK_X);
         }
-        else if(e.getKeyCode() == NativeKeyEvent.VK_X && alphapressed[23] == false)
+        else if(e.getKeyCode() == NativeKeyEvent.VK_X && !alphapressed[23])
         {
-            r.delay(25);
+            alphapressed[23] = false;
+            r.keyRelease(KeyEvent.VK_X);
+            alphapressed[23] = false;
+            r.delay(10);
             r.keyPress(KeyEvent.VK_BACK_SPACE);
             r.keyRelease(KeyEvent.VK_BACK_SPACE);
             alphapressed[25] = true;
             r.keyPress(KeyEvent.VK_Z);
-            r.keyRelease(KeyEvent.VK_Z);
         }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_META)
+        {
+            if(altPressed)
+            {
+                r.keyRelease(KeyEvent.VK_ALT);
+            }
+            else if(escapePressed)
+            {
+                r.keyRelease(KeyEvent.VK_ESCAPE);
+            }
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ALT)
+        {
+            if(commandPressed)
+            {
+                r.keyRelease(KeyEvent.VK_ALT);
+            }
+            else if(escapePressed)
+            {
+                r.keyRelease(KeyEvent.VK_ESCAPE);
+            }
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
+        {
+            if(commandPressed || altPressed)
+            {
+                r.keyRelease(KeyEvent.VK_ESCAPE);
+            }
+        }
+        
         
         if(e.getKeyCode() == NativeKeyEvent.VK_A)
         {
@@ -168,6 +230,19 @@ public class RobotExperiments implements NativeKeyListener
         {
             alphapressed[25] = true;
         }
+        //Special Keys
+        else if(e.getKeyCode() == NativeKeyEvent.VK_META)
+        {
+            commandPressed = true;
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ALT)
+        {
+            altPressed = true;
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
+        {
+            escapePressed = true;
+        }
 
         if (e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
         {
@@ -178,6 +253,15 @@ public class RobotExperiments implements NativeKeyListener
     public void nativeKeyReleased(NativeKeyEvent e)
     {
         //System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        
+        if(e.getKeyCode() == NativeKeyEvent.VK_Z && alphapressed[25])
+        {
+            r.keyRelease(KeyEvent.VK_X);
+        }
+        if(e.getKeyCode() == NativeKeyEvent.VK_X && alphapressed[23])
+        {
+            r.keyRelease(KeyEvent.VK_Z);
+        }
 
         if(e.getKeyCode() == NativeKeyEvent.VK_A)
         {
@@ -283,11 +367,46 @@ public class RobotExperiments implements NativeKeyListener
         {
             alphapressed[25] = false;
         }
+        //Special Keys
+        else if(e.getKeyCode() == NativeKeyEvent.VK_META)
+        {
+            commandPressed = false;
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ALT)
+        {
+            altPressed = false;
+        }
+        else if(e.getKeyCode() == NativeKeyEvent.VK_ESCAPE)
+        {
+            escapePressed = false;
+        }
     }
 
     public void nativeKeyTyped(NativeKeyEvent e)
     {
         //System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
 
+    }
+    
+    long lastAdded = System.currentTimeMillis();
+    
+    public void screenControl(Robot robot, String fileName) {
+        while(true) {
+            long curTime = System.currentTimeMillis();
+            if(curTime >= lastAdded + 1000) {    
+                try {
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    Rectangle screenRectangle = new Rectangle(screenSize);
+                    BufferedImage image = robot.createScreenCapture(screenRectangle);
+                    ImageIO.write(image, "png", new File(fileName));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.err.println("There was a problem.");
+        
+                    System.exit(1);
+                }
+                lastAdded = curTime;
+            }
+        }
     }
 }
