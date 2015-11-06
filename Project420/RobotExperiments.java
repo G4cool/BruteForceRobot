@@ -385,7 +385,7 @@ public class RobotExperiments implements NativeKeyListener
     public void nativeKeyTyped(NativeKeyEvent e)
     {
         //System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
-
+        //Why is this here?
     }
     
     long lastAdded = System.currentTimeMillis();
