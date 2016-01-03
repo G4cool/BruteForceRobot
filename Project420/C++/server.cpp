@@ -24,6 +24,9 @@ int main(int argc, char *argv[])
     socklen_t clilen;
     struct sockaddr_in serv_addr, cli_addr;
     int count = 0;
+    //int m;
+    //char buffer2[256];
+    //char str1[] = "exit";
     
     if (argc < 2) {
         fprintf(stderr,"ERROR, no port provided\n");
@@ -63,6 +66,16 @@ int main(int argc, char *argv[])
         if (pid == 0)  {
             close(sockfd);
             dostuff(newsockfd);
+            
+            /*
+            bzero(buffer2,256);
+            m = read(newsockfd,buffer2,255);
+            if (m < 0) error("ERROR reading from socket");
+            if (strcmp(buffer2,str1) == 0) {
+                //exit(0);
+                break;
+            }
+            */
             //exit(0);
         }
         //else close(newsockfd);
@@ -83,6 +96,7 @@ void dostuff (int sock)
 {
     int n;
     char buffer[256];
+    char str1[] = "exitThis";
     
     bzero(buffer,256);
     n = read(sock,buffer,255);
@@ -91,4 +105,9 @@ void dostuff (int sock)
     system(buffer);
     n = write(sock,"I got your message",18);
     if (n < 0) error("ERROR writing to socket");
+    if (strcmp(buffer,str1) == 0) {
+        printf("We got it");
+        exit(0);
+        //break;
+    }
 }
