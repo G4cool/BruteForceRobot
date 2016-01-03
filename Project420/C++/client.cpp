@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <string.h>
 
 void error(const char *msg)
 {
@@ -18,6 +19,8 @@ int main(int argc, char *argv[])
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
     struct hostent *server;
+    bool exited = false;
+    char str1[] = "exit";
     
     char buffer[256];
     ///*
@@ -47,17 +50,23 @@ int main(int argc, char *argv[])
     serv_addr.sin_port = htons(portno);
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0)
         error("ERROR connecting");
-    printf("Please enter the message: ");
-    bzero(buffer,256);
-    fgets(buffer,255,stdin);
-    n = write(sockfd,buffer,strlen(buffer));
-    if (n < 0)
-        error("ERROR writing to socket");
-    bzero(buffer,256);
-    n = read(sockfd,buffer,255);
-    if (n < 0)
-        error("ERROR reading from socket");
-    printf("%s\n",buffer);
+    while (exited == false) {
+        printf("Please enter the command: ");
+        bzero(buffer,256);
+        fgets(buffer,255,stdin);
+        n = write(sockfd,buffer,strlen(buffer));
+        if (n < 0)
+            error("ERROR writing to socket");
+        bzero(buffer,256);
+        n = read(sockfd,buffer,255);
+        if (n < 0)
+            error("ERROR reading from socket");
+        printf("%s\n",buffer);
+        if (strcmp(buffer,str1) == 0) {
+            exited = false;
+            break;
+        }
+    }
     close(sockfd);
     return 0;
 }
