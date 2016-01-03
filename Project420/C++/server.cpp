@@ -42,19 +42,21 @@ int main(int argc, char *argv[])
         error("ERROR on binding");
     listen(sockfd,5);
     clilen = sizeof(cli_addr);
-    /*
+    ///*
     newsockfd = accept(sockfd,
                        (struct sockaddr *) &cli_addr, &clilen);
     if (newsockfd < 0)
         error("ERROR on accept");
-    */
+    //*/
     while (1) {
+        /*
         if (count == 0) {
             newsockfd = accept(sockfd,
                                (struct sockaddr *) &cli_addr, &clilen);
             if (newsockfd < 0)
                 error("ERROR on accept");
         }
+        */
         pid = fork();
         if (pid < 0)
             error("ERROR on fork");
@@ -65,7 +67,7 @@ int main(int argc, char *argv[])
         }
         //else close(newsockfd);
         //printf("cmon");
-        count++;
+        //count++;
         //printf("count: %d\n",count);
     } /* end of while */
     close(sockfd);
