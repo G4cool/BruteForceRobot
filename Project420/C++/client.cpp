@@ -7,6 +7,8 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <string.h>
+#include <stdint.h>
+#include <ApplicationServices/ApplicationServices.h>
 
 void error(const char *msg)
 {
@@ -62,8 +64,10 @@ int main(int argc, char *argv[])
         if (n < 0)
             error("ERROR reading from socket");
         printf("%s\n",buffer);
-        if (strcmp(buffer,str1) == 0) {
+        if (strcmp(buffer,"exit\n") == 0) {
+            printf("The program has exited.\n");
             exited = false;
+            exit(0);
             break;
         }
     }
