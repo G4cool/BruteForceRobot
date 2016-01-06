@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <ApplicationServices/ApplicationServices.h>
+#include <SDL.h>
 
 void error(const char *msg)
 {
