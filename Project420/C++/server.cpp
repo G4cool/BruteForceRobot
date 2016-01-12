@@ -14,7 +14,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <ApplicationServices/ApplicationServices.h>
-#include "SDL.h"
+//include "SDL.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
         error("ERROR opening socket");
     bzero((char *) &serv_addr, sizeof(serv_addr));
     portno = atoi(argv[1]);
-    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_family = AF_INET; // IP
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(portno);
     if (bind(sockfd, (struct sockaddr *) &serv_addr,
@@ -55,6 +55,9 @@ int main(int argc, char *argv[])
     clilen = sizeof(cli_addr);
     newsockfd = accept(sockfd,
                        (struct sockaddr *) &cli_addr, &clilen);
+    
+    //printf("IP: %d\n",serv_addr.sin_family);
+    
     if (newsockfd < 0)
         error("ERROR on accept");
     while (1) {
@@ -88,7 +91,7 @@ int main(int argc, char *argv[])
 }
 //}
 
-///*
+/*
 extern "C++"{
     void sdlWindow() {
         //The window we'll be rendering to
@@ -123,7 +126,7 @@ extern "C++"{
         SDL_Quit();
     }
 }
-//*/
+*/
 
 
 

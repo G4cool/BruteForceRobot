@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <ApplicationServices/ApplicationServices.h>
-#include "SDL.h"
+//#include "SDL.h"
 
 void error(const char *msg)
 {
@@ -38,7 +38,9 @@ int main(int argc, char *argv[])
     if (sockfd < 0)
         error("ERROR opening socket");
     //fprintf(stderr,"just before hostname\n");
-    server = gethostbyname(argv[1]);
+    //server = gethostbyname(argv[1]);
+    //server = gethostbyname("172.17.114.207");
+    //server = gethostbyname("0.0.0.0");
     //fprintf(stderr,"got host name\n");
     //gethostname(server, 1024);
     if (server == NULL) {
