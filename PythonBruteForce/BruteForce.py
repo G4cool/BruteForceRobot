@@ -17,8 +17,8 @@ def attempt(IP,UserName,Password):
     ssh.close()
     return
 
-ip = '192.168.0.3'
-username = 'michaeltruell'
+ip = '25.232.148.124'
+username = 'Lisa\ Shi'
 start_time = time.time()
 passwordFile = open("500-worst-passwords.txt")
 ###permutations = itertools.product(string.ascii_lowercase, repeat=3)
